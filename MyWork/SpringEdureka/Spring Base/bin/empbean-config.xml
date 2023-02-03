@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- dependency config -->
+	<!-- singleton n eager -->
+	<bean id="emp1" class="co.edureka.Employee" init-method="myInit" destroy-method="myDestroy">
+		<property name="eid" value="01"></property>
+		<property name="ename" value="ranjit"></property>
+		<property name="esalary" value="65000"></property>
+	</bean>
+ <bean id="emp2" class="co.edureka.Employee">
+		<property name="eid" value="02"></property>
+		<property name="ename" value="soham"></property>
+		<property name="esalary" value="89000"></property>
+	</bean>
+	
+	<bean id="emp3" class="co.edureka.Employee">
+		<property name="eid" value="03"></property>
+		<property name="ename" value="mohak"></property>
+		<property name="esalary" value="19000"></property>
+	</bean>
+</beans>

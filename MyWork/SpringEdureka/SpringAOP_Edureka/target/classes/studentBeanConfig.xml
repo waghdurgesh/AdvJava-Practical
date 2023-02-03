@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="adrs" class="co.edureka.Address" >
+		<property name="city" value="Aakurdi"></property>
+		<property name="state" value="Maharashtra"></property>
+		<property name="pin" value="411033"></property>
+	</bean>
+	<bean id="std" class="co.edureka.Student" init-method="myInit" destroy-method="myDestroy">
+		<property name="rollno" value="28"></property>
+		<property name="sname" value="kunal"></property>
+		<!-- <property name="address" ref="adrs"></property> -->
+		<!-- OR -->
+		<constructor-arg ref="adrs"></constructor-arg>
+	</bean>
+</beans>
