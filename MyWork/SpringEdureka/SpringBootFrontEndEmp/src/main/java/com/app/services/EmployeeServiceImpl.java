@@ -1,9 +1,12 @@
 package com.app.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.app.custom_exceptions.ResourceNotFoundException;
+import com.app.dto.EmployeeResponse;
 import com.app.pojos.Employee;
 import com.app.repository.EmployeeRepository;
 
@@ -20,6 +24,14 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	// dependency DAO layer interface
 	@Autowired
 	private EmployeeRepository empRepository;
+	// dependency Model mapper
+	@Autowired
+	private ModelMapper mapper;
+
+	@PostConstruct
+	public void init() {
+		System.out.println("***in init***" + mapper);
+	}
 
 	@Override
 	public List<Employee> getAllEmployee() {
@@ -57,6 +69,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		// return to
 		return ResponseEntity.ok(updtemp);
 	}
+
 	@Override
 	public Employee updateEmployeeDetails(Employee detachedEmp) {
 
@@ -64,5 +77,17 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			return empRepository.save(detachedEmp);
 		}
 		throw new ResourceNotFoundException("Invalid Emp Id : Updation Failed!!!!!!!!");
+	}
+
+	@Override
+	public List<EmployeeResponse> getEmpsBySalary(double minSal, double maxSal) {
+		// entity to dto conversion is needed
+
+//		return empRepo.fetchEmpNamesBySalaryRange(minSal, maxSal).//Stream<Emp>
+//				map(e -> new EmployeeResponse(e.getFirstName(),e.getLastName())) //Stream<EmpResp>
+//				.collect(Collectors.toList());
+		return empRepository.fetchEmpNamesBySalaryRange(minSal, maxSal). // stream of emp
+				map(e -> mapper.map(e, EmployeeResponse.class)) // Entity --> DTO
+				.collect(Collectors.toList());
 	}
 }

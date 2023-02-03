@@ -36,6 +36,12 @@ public class Employee extends BaseEntity {
 	private LocalDate joinDate;
 	private double salary;
 
+	public Employee(String firstname, String lastname) {
+		super();
+		this.firstname = firstname;
+		this.lastname = lastname;
+	}
+
 	public Employee() {
 	}
 

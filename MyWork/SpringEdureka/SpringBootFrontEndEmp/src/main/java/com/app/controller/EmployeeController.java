@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.dto.EmployeeResponse;
 import com.app.pojos.Employee;
 import com.app.services.IEmployeeService;
 
@@ -61,4 +63,9 @@ public class EmployeeController {
 		return empService.updateEmployeeDetails(emp);
 	}
 
+	@GetMapping("/salary")
+	public List<EmployeeResponse> getAllEmpsBySalaryRange(@RequestParam double minSal, double maxSal) {
+		System.out.println("***In get Emp By Salary***" + minSal + " " + maxSal);
+		return empService.getEmpsBySalary(minSal, maxSal);
+	}
 }
