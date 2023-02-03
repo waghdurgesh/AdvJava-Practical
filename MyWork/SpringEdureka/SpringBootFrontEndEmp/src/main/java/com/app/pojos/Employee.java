@@ -15,10 +15,10 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "new_emps")
-@NoArgsConstructor
-@Getter
-@Setter
-@ToString(callSuper = true, exclude = "password")
+//@NoArgsConstructor
+//@Getter
+//@Setter
+//@ToString(callSuper = true, exclude = "password")
 public class Employee extends BaseEntity {
 	@Column(length = 20)
 	private String firstname;

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.app.custom_exceptions.ResourceNotFoundException;
 import com.app.pojos.Employee;
 import com.app.repository.EmployeeRepository;
 
@@ -55,5 +56,13 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		empRepository.save(updtemp);
 		// return to
 		return ResponseEntity.ok(updtemp);
+	}
+	@Override
+	public Employee updateEmployeeDetails(Employee detachedEmp) {
+
+		if (empRepository.existsById(detachedEmp.getId())) {
+			return empRepository.save(detachedEmp);
+		}
+		throw new ResourceNotFoundException("Invalid Emp Id : Updation Failed!!!!!!!!");
 	}
 }

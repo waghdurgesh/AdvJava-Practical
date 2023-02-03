@@ -16,6 +16,9 @@ public interface IEmployeeService {
 //remove emp
 	String deleteEmployee(Long id);
 
-//update emp
+//update emp with resp entity
 	ResponseEntity<Employee> editEmployee(Long id, Employee emp);
+	
+//update emp
+	Employee updateEmployeeDetails(Employee detachedEmp);
 }

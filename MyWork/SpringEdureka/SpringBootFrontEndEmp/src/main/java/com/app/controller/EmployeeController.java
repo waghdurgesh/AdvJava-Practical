@@ -51,8 +51,14 @@ public class EmployeeController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee emp) {
-		System.out.println("***In Update Emp***");
+		System.out.println("***In Update Employee***");
 		return empService.editEmployee(id, emp);
+	}
+
+	@PutMapping
+	public Employee updateEmpDetails(@RequestBody Employee emp) {
+		System.out.println("***In Update Emp Details***" + emp.getId());
+		return empService.updateEmployeeDetails(emp);
 	}
 
 }
