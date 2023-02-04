@@ -1,9 +1,9 @@
 package com.app.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,40 +32,66 @@ public class EmployeeController {
 	}
 
 	// get mapping with http://localhost:port/employees
+	// get all emp --> get
 	@GetMapping
 	public List<Employee> getEmployees() {
 		System.out.println("***Inside get Employee***");
 		return empService.getAllEmployee();
 	}
 
-	// post mapping with http://localhost:port/employees
+	// add new emp --> post
 	@PostMapping
 	public Employee saveEmployee(@RequestBody Employee emp) {
 		System.out.println("***In save emp***" + emp);
 		return empService.addNewEmployee(emp);
 	}
 
+	// delete emp --. delete
 	@DeleteMapping("/{id}")
 	public void deleteEmployee(@PathVariable Long id) {
 		System.out.println("***In Delete Emp***");
 		empService.deleteEmployee(id);
 	}
 
-	@PutMapping("/{id}")
-	public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee emp) {
-		System.out.println("***In Update Employee***");
-		return empService.editEmployee(id, emp);
-	}
+//update method using response entity
+//	@PutMapping("/{id}")
+//	public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee emp) {
+//		System.out.println("***In Update Employee***");
+//		return empService.editEmployee(id, emp);
+//	}
 
+	// update emp --> put
 	@PutMapping
 	public Employee updateEmpDetails(@RequestBody Employee emp) {
 		System.out.println("***In Update Emp Details***" + emp.getId());
 		return empService.updateEmployeeDetails(emp);
 	}
 
+	// get all emp by salary range --> get
 	@GetMapping("/salary")
 	public List<EmployeeResponse> getAllEmpsBySalaryRange(@RequestParam double minSal, double maxSal) {
 		System.out.println("***In get Emp By Salary***" + minSal + " " + maxSal);
 		return empService.getEmpsBySalary(minSal, maxSal);
+	}
+
+	// get emp by id --> get
+	@GetMapping("/{id}")
+	public Optional<Employee> getEmployeeById(@RequestParam Long id) {
+		System.out.println("***In Get Emp Details By Id***" + " For Id : " + id);
+		return empService.getEmpById(id);
+	}
+
+	// get first name and last name of emp by name --> get
+	@GetMapping("/dto/{names}")
+	public List<EmployeeResponse> getEmpsByFirstname(@RequestParam String fname) {
+		System.out.println("***In Get Emp Details By Name***" + " For Firstname : " + fname);
+		return empService.getEmpsByFirstName(fname);
+	}
+
+	// get all details by name --> get
+	@GetMapping("/entity/{firstname}")
+	public List<Employee> getAllEmpsByFirstname(@RequestParam String fname) {
+		System.out.println("***In Get Emp Details By Name***" + " For Firstname : " + fname);
+		return empService.getAllDetailsByFirstName(fname);
 	}
 }

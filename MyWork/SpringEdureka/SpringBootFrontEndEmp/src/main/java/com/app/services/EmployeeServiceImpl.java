@@ -1,6 +1,7 @@
 package com.app.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -8,10 +9,7 @@ import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.app.custom_exceptions.ResourceNotFoundException;
 import com.app.dto.EmployeeResponse;
@@ -51,24 +49,24 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		}
 		return "Deletion Failed : Invalid Emp Id !!!!!!!!!!!";
 	}
-
-	@Override
-	public ResponseEntity<Employee> editEmployee(@PathVariable Long id, @RequestBody Employee emp) {
-		// create employee instance to save data gain by find id
-		Employee updtemp = empRepository.findById(id).orElseThrow();
-		// update gain data by suing setters supplied by getter from parameter
-		updtemp.setFirstname(emp.getFirstname());
-		updtemp.setLastname(emp.getLastname());
-		updtemp.setSalary(emp.getSalary());
-		updtemp.setDepartment(emp.getDepartment());
-		updtemp.setWorkLocation(emp.getWorkLocation());
-		updtemp.setEmail(emp.getEmail());
-		updtemp.setPasssword(emp.getPasssword());
-		// save data
-		empRepository.save(updtemp);
-		// return to
-		return ResponseEntity.ok(updtemp);
-	}
+	//update method using response entity
+//	@Override
+//	public ResponseEntity<Employee> editEmployee(@PathVariable Long id, @RequestBody Employee emp) {
+//		// create employee instance to save data gain by find id
+//		Employee updtemp = empRepository.findById(id).orElseThrow();
+//		// update gain data by suing setters supplied by getter from parameter
+//		updtemp.setFirstname(emp.getFirstname());
+//		updtemp.setLastname(emp.getLastname());
+//		updtemp.setSalary(emp.getSalary());
+//		updtemp.setDepartment(emp.getDepartment());
+//		updtemp.setWorkLocation(emp.getWorkLocation());
+//		updtemp.setEmail(emp.getEmail());
+//		updtemp.setPasssword(emp.getPasssword());
+//		// save data
+//		empRepository.save(updtemp);
+//		// return to
+//		return ResponseEntity.ok(updtemp);
+//	}
 
 	@Override
 	public Employee updateEmployeeDetails(Employee detachedEmp) {
@@ -83,11 +81,32 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	public List<EmployeeResponse> getEmpsBySalary(double minSal, double maxSal) {
 		// entity to dto conversion is needed
 
-//		return empRepo.fetchEmpNamesBySalaryRange(minSal, maxSal).//Stream<Emp>
-//				map(e -> new EmployeeResponse(e.getFirstName(),e.getLastName())) //Stream<EmpResp>
+//		return empRepository.fetchEmpNamesBySalaryRange(minSal, maxSal).//Stream<Emp>
+//				map(e -> new EmployeeResponse(e.getFirstname(),e.getLastname())) //Stream<EmpResp>
 //				.collect(Collectors.toList());
 		return empRepository.fetchEmpNamesBySalaryRange(minSal, maxSal). // stream of emp
 				map(e -> mapper.map(e, EmployeeResponse.class)) // Entity --> DTO
 				.collect(Collectors.toList());
+	}
+
+	@Override
+	public Optional<Employee> getEmpById(Long id) {
+		if (empRepository.existsById(id)) {
+			return empRepository.findById(id);
+		}
+		throw new ResourceNotFoundException("Invalid Emp Id : Search Failed!!!!!!!!");
+	}
+
+	@Override
+	public List<EmployeeResponse> getEmpsByFirstName(String firstname) {
+
+		return empRepository.fetchEmpByFirstname(firstname).map(e -> mapper.map(e, EmployeeResponse.class))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<Employee> getAllDetailsByFirstName(String firstname) {
+
+		return empRepository.fetchEmpAllDetailsByFirstname(firstname);
 	}
 }
