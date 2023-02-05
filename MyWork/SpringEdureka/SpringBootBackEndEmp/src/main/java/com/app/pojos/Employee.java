@@ -21,7 +21,7 @@ public class Employee extends BaseEntity {
 	private String firstname;
 	@Column(length = 20)
 	private String lastname;
-	@Column(length = 30, unique = true)
+	@Column(length = 30, unique = true,nullable = false)
 	private String email;
 	@Column(length = 20, nullable = false)
 	private String password;
