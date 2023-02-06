@@ -22,25 +22,25 @@ public class UsersController {
 
 	@Autowired
 	private UserService userService;
-
+	
 	@Autowired
 	private ModelMapper mapper;
-
+	
 	@PostMapping("/signup")
-	public User saveUserDetails(@RequestBody UserSignupDto user) {
+	public User saveUserDetails(@RequestBody UserSignupDto user){
 		User newUser = mapper.map(user, User.class);
-		return userService.addUserDetails(newUser);
+		return userService.addUserDetails(newUser);	
 	}
-
+	
 	@GetMapping("/{userId}")
-	public User getUserDetails(@PathVariable Long userId) {
-		System.out.println("in get emp details " + userId);
+	public User getUserDetails(@PathVariable Long userId){
+		System.out.println("in get emp details "+userId);
 		return userService.fetchUserDetails(userId);
 	}
-
+	
 	@PostMapping("/signin")
-	public User validateUser(@RequestBody LoginRequestDto dto) {
-		System.out.println("in emp signin " + dto);
+	public User validateUser(@RequestBody LoginRequestDto dto){
+		System.out.println("in emp signin "+dto);
 		return userService.authenticateUser(dto);
 	}
 }

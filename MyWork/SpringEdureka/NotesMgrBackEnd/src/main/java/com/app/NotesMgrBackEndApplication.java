@@ -7,17 +7,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class NoteManagerBackEndApplication {
+public class NotesMgrBackEndApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(NoteManagerBackEndApplication.class, args);
+		SpringApplication.run(NotesMgrBackEndApplication.class, args);
 	}
-	
+
 	@Bean
 	public ModelMapper configureMapper() {
 		System.out.println("in config mapper....");
 		ModelMapper modelMapper = new ModelMapper();
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-		return modelMapper;//method rets bean instance to SC
+		return modelMapper;// method rets bean instance to SC
 	}
 }

@@ -13,17 +13,8 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
 @Entity
 @Table(name = "users")
-@Getter
-@Setter
-@ToString(exclude = "password")
-@NoArgsConstructor
 public class User extends BaseEntity{
 	private String name;
 	
@@ -42,4 +33,32 @@ public class User extends BaseEntity{
 		note.setUser(this);
 	}
 	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	@Override
+	public String toString() {
+		return "User [name=" + name + ", email=" + email + "]";
+	}
 }
