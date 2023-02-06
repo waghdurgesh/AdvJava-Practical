@@ -15,24 +15,27 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 @Table(name = "users")
-public class User extends BaseEntity{
+//@Getter
+//@Setter
+//@NoArgsConstructor
+//@ToString(callSuper = true, exclude = "password")
+public class User extends BaseEntity {
 	private String name;
-	
+
 	@Column(unique = true)
 	private String email;
-	
+
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
-	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL,
-	fetch=FetchType.LAZY, orphanRemoval = true)
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Note> notes = new ArrayList<>();
 
 	public void addNote(Note note) {
 		notes.add(note);
 		note.setUser(this);
 	}
-	
+
 	public String getName() {
 		return name;
 	}
