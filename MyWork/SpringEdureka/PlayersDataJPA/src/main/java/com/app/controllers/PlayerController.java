@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.dto.BasicPlayerDetailsDTO;
+import com.app.dto.LoginDTO;
 import com.app.entities.Player;
 import com.app.services.PlayerServiceImpl;
 
@@ -44,5 +46,37 @@ public class PlayerController {
 		return playerService.editPlayer(ply);
 
 	}
+
+	// authenticate
+	@PostMapping("/login")
+	public Player loginPlayer(@RequestBody LoginDTO playerdto) {
+		return playerService.authenticatePlayer(playerdto);
+	}
+	
+	//basic details--> foreach manual mapping
+//	@GetMapping("/basic")
+//	public List<BasicPlayerDetailsDTO> showBasic() {
+//		List<Player> basicDetails = playerService.getAllPlayerBasicDetails();
+//		List<BasicPlayerDetailsDTO> dtolist = new ArrayList<BasicPlayerDetailsDTO>();
+//		for(Player p : basicDetails)
+//		{
+//			BasicPlayerDetailsDTO dt = new BasicPlayerDetailsDTO();
+//			dt.setDob(p.getDob());
+//			dt.setFirstname(p.getFirstname());
+//			dt.setLastname(p.getLastname());
+//			dt.setRanking(p.getRanking());
+//			dtolist.add(dt);
+//		}
+//		return dtolist;
+//	}
+	
+	//basic details mapper
+	@GetMapping("/basic")
+	public List<BasicPlayerDetailsDTO> getBasicDetailsByName(String name){
+		return playerService.getAllPlayersBasicDetails(name);
+				
+	}
+	
+	
 
 }

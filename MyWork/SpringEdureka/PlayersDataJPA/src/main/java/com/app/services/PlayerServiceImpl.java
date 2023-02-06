@@ -1,6 +1,7 @@
 package com.app.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.custom_exceptions.ResourseNotFoundException;
+import com.app.dto.BasicPlayerDetailsDTO;
+import com.app.dto.LoginDTO;
 import com.app.entities.Player;
 import com.app.repositories.PlayerRepository;
 
@@ -17,6 +20,10 @@ public class PlayerServiceImpl implements IPlayerService {
 	// dependncy injection
 	@Autowired
 	private PlayerRepository playerRepo;
+
+	// dep modelmapper
+//	@Autowired
+//	private ModelMapper mapper;
 
 	@Override
 	public List<Player> getAllPlayers() {
@@ -36,7 +43,6 @@ public class PlayerServiceImpl implements IPlayerService {
 			return "Delete Succesfully!";
 		}
 		throw new ResourseNotFoundException("ID Invalid");
-
 	}
 
 	@Override
@@ -46,5 +52,25 @@ public class PlayerServiceImpl implements IPlayerService {
 		}
 		throw new ResourseNotFoundException("Invalid ID!");
 	}
+
+	@Override
+	public Player authenticatePlayer(LoginDTO dto) {
+		return playerRepo.findByEmailAndPassword(dto.getEmail(), dto.getPassword())
+				.orElseThrow(() -> new ResourseNotFoundException("Wrong Credentials!!"));
+	}
+
+	@Override
+	public List<BasicPlayerDetailsDTO> getAllPlayersBasicDetails(String firstname) {
+		return playerRepo.fetchPlayersByFirstname(firstname)
+				.map(p -> new BasicPlayerDetailsDTO(p.getFirstname(), p.getLastname(), p.getDob(), p.getRanking()))
+				.collect(Collectors.toList());
+	}
+
+//	@Override
+//	public List<EmployeeResponse> getEmpsByFirstName(String firstname) {
+//
+//		return empRepository.fetchEmpByFirstname(firstname).map(e -> mapper.map(e, EmployeeResponse.class))
+//				.collect(Collectors.toList());
+//	}
 
 }

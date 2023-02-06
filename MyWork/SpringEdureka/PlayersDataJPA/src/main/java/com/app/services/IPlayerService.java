@@ -2,6 +2,8 @@ package com.app.services;
 
 import java.util.List;
 
+import com.app.dto.BasicPlayerDetailsDTO;
+import com.app.dto.LoginDTO;
 import com.app.entities.Player;
 
 public interface IPlayerService {
@@ -16,4 +18,10 @@ public interface IPlayerService {
 
 	// edit
 	Player editPlayer(Player player);
+
+	// authenticate
+	Player authenticatePlayer(LoginDTO dto);
+
+	// show basic details --> dto
+	List<BasicPlayerDetailsDTO> getAllPlayersBasicDetails(String name);
 }
